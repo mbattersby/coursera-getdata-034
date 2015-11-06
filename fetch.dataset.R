@@ -6,14 +6,20 @@ fetch.dataset <- function() {
     
     dataSource <- 'https://d396qusza40orc.cloudfront.net/getdata/projectfiles/UCI%20HAR%20Dataset.zip'
     destDir <- "projectfiles"
-    destFile <- "UCI HAR Dataset.zip"
+    destFile <- basename(URLdecode(dataSource))
     destPath <- file.path(destDir, destFile)
+    fetchRecordPath <- file.path(destDir, "fetchDate.txt")
     
-    dir.create(destDir, showWarnings=FALSE)
+    if (!file.exists(destDir)) {
+        dir.create(destDir)
+    }
     
     if (!file.exists(destPath)) {
         print("Downloading dataset ZIP file.")
         download.file(dataSource, destPath, quiet=TRUE)
+        fetchDateConn <- file(fetchRecordPath, open="w+")
+        writeLines(format(Sys.time(), "%c %z"), con=fetchDateConn)
+        close(fetchDateConn)
     } else {
         print("Found existing dataset ZIP file, not re-downloading.")
     }
