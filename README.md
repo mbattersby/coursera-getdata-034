@@ -1,7 +1,8 @@
-# Getting and Cleaning Data
-# Course Project
+# Tidying the UCI HAR Dataset
 
-## Data Sources
+Getting and Cleaning Data - Course Project
+
+### Data Sources
 
 http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 
