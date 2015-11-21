@@ -3,9 +3,11 @@
 #
 
 library(dplyr, warn.conflicts=FALSE)
+library(tidyr)
 
-fetch.dataset <- function (downloadDir="data") {
+fetch.dataset <- function () {
     
+    downloadDir <- "data"
     UCIHARMirrorURL <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip'
     
     cat("Fetching and unpacking the dataset files.\n")
@@ -44,6 +46,16 @@ assemble.dataset <- function () {
     
     cat("  * Reading feature labels.\n")
     feature_labels <- read.table("features.txt", col.names=c("id", "label"), stringsAsFactors=FALSE)
+    wanted_features <- grep("-(mean|std)\\(\\)", feature_labels$label)
+    
+    nicer_feature_labels <- gsub("Body", "Body.", feature_labels$label, fixed=TRUE)
+    nicer_feature_labels <- gsub("Gravity", "Gravity.", nicer_feature_labels, fixed=TRUE)
+    nicer_feature_labels <- gsub("Acc", "Accelerometer.", nicer_feature_labels, fixed=TRUE)
+    nicer_feature_labels <- gsub("Gyro", "Gyroscope.", nicer_feature_labels, fixed=TRUE)
+    nicer_feature_labels <- gsub("Mag", "Magnitude.", nicer_feature_labels, fixed=TRUE)
+    nicer_feature_labels <- gsub("Jerk", "Jerk.", nicer_feature_labels, fixed=TRUE)
+    nicer_feature_labels <- gsub("-(mean|std)", "\\1", nicer_feature_labels)
+    nicer_feature_labels <- gsub("()", "", nicer_feature_labels, fixed=TRUE)
 
     cat("  * Reading the training set files:\n")    
     
@@ -53,13 +65,15 @@ assemble.dataset <- function () {
     cat("    * activities\n")
     train_activity_ids <- read.table(file.path("train", "y_train.txt"), col.names="id")
     train_activity_labels <- activity_labels[train_activity_ids$id, 'label']
-    
+
     cat("    * set data\n")
     train_set <- read.table(file.path("train", "X_train.txt"), colClasses="numeric", comment.char="")
+    #colnames(train_set) <- make.names(feature_labels$label, unique=FALSE)
+    colnames(train_set) <- nicer_feature_labels
     
     cat("  * Assembling the training set frame.\n")
-    train <- cbind(train_subject, train_activity_labels, train_set)
-    colnames(train) <- c('subject', 'activity', make.names(feature_labels$label, unique=TRUE))
+    train <- cbind(train_subject, train_activity_labels, train_set[,wanted_features])
+    colnames(train)[2] <- "activity"
     
     cat("  * Reading the test set files:\n")
     
@@ -72,11 +86,13 @@ assemble.dataset <- function () {
     
     cat("    * set data\n")
     test_set <- read.table(file.path("test", "X_test.txt"), colClasses="numeric", comment.char="")
+    #colnames(test_set) <- make.names(feature_labels$label, unique=TRUE)
+    colnames(test_set) <- nicer_feature_labels
     
     cat("  * Assembling the test set frame.\n")
-    test <- cbind(test_subject, test_activity_labels, test_set)
-    colnames(test) <- c('subject', 'activity', make.names(feature_labels$label, unique=TRUE))
-
+    test <- cbind(test_subject, test_activity_labels, test_set[,wanted_features])
+    colnames(test)[2] <- "activity"
+    
     cat("  * Merging the test and training datasets\n")
     merged <- rbind(train, test)
     
@@ -85,17 +101,24 @@ assemble.dataset <- function () {
     
     setwd(oldDir)
     
-    return(merged)
+    return(assembled)
 }
 
-tidy.dataset <- function (dataset) {
-    cat("Creating tidy dataset.\n")
-    select(dataset, subject, activity)
+create.averaged.dataset <- function(dataset) {
+    cat("  * Creating averaged dataset over (subject, activity).\n")
+    
+    dataset %>%
+        group_by(subject, activity) %>%
+        summarize_each(funs(mean)) %>%
+        gather(reading, mean, -subject, -activity)
 }
 
 run_analysis <- function () {
     fetch.dataset()
-    assembledDataset <- assemble.dataset()
-    tidyDataset <- tidy.dataset(assembledDataset)
-    return(tidyDataset)
+    UCI.HAR.raw <<- assemble.dataset()
+    UCI.HAR.tidy <<- create.averaged.dataset(UCI.HAR.raw)
 }
+
+run_analysis()
+rm(fetch.dataset, assemble.dataset, create.averaged.dataset, run_analysis)
+
