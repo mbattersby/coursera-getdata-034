@@ -2,15 +2,15 @@
 # Tidy the UCI HAR Dataset
 #
 
-library(dplyr)
+library(dplyr, warn.conflicts=FALSE)
 
-UCIHARMirrorURL <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip'
-
-fetch.dataset <- function (dataSource=UCIHARMirrorURL, downloadDir="projectfiles") {
+fetch.dataset <- function (downloadDir="projectfiles") {
+    
+    UCIHARMirrorURL <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip'
     
     cat("Fetching and unpacking the dataset files.\n")
     
-    destPath <- file.path(downloadDir, basename(URLdecode(dataSource)))
+    destPath <- file.path(downloadDir, basename(URLdecode(UCIHARMirrorURL)))
     fetchDateFile <- file.path(downloadDir, "fetchDate.txt")
     
     if (!file.exists(downloadDir)) {
@@ -22,7 +22,7 @@ fetch.dataset <- function (dataSource=UCIHARMirrorURL, downloadDir="projectfiles
     
     if (!file.exists(destPath)) {
         cat("  * Downloading UCI HAR Dataset ZIP file from mirror.\n")
-        download.file(dataSource, destPath, quiet=TRUE)
+        download.file(UCIHARMirrorURL, destPath, quiet=TRUE)
         fetchDateConn <- file(fetchDateFile, open="w+")
         writeLines(format(Sys.time(), "%c %z"), con=fetchDateConn)
         close(fetchDateConn)
@@ -81,13 +81,21 @@ assemble.dataset <- function () {
     merged <- rbind(train, test)
     
     cat("  * Ordering the merged dataset by subject, activity\n")
-    UCI.HAR.assembled <<- arrange(merged, subject, activity)
+    assembled <- arrange(merged, subject, activity)
     
     setwd(oldDir)
+    
+    return(merged)
 }
 
-tidy.dataset <- function () {
+tidy.dataset <- function (dataset) {
     cat("Creating tidy dataset.\n")
-    
-    UCI.HAR.tidy <<- select(UCI.HAR.assembled, subject, activity)
+    select(dataset, subject, activity)
+}
+
+run_analysis <- function () {
+    fetch.dataset()
+    assembledDataset <- assemble.dataset()
+    tidyDataset <- tidy.dataset(assembledDataset)
+    return(tidyDataset)
 }
