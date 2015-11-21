@@ -4,7 +4,7 @@
 
 library(dplyr, warn.conflicts=FALSE)
 
-fetch.dataset <- function (downloadDir="projectfiles") {
+fetch.dataset <- function (downloadDir="data") {
     
     UCIHARMirrorURL <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip'
     
