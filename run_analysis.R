@@ -1,6 +1,10 @@
 #
 # Tidy the UCI HAR Dataset
 #
+# This is kind of a mess. Due the structure of the getdata course and the
+# assignment deadlines you need to do most of the assignment before you 
+# learn the tools to do with with.
+#
 
 library(dplyr, warn.conflicts=FALSE)
 library(tidyr)
