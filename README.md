@@ -1,6 +1,6 @@
 # Tidying the UCI HAR Dataset
 
-This is an R script to process the UCI HAR Dataset into a tidy data format.
+This is an R script to process the UCI HAR Dataset into a [tidy data](http://vita.had.co.nz/papers/tidy-data.pdf) format.
 
 ## How to use
 
@@ -12,9 +12,9 @@ To do the processing source the file into your R environment.
 source('run_analysis.R')
 ```
 
-This will export two resulting data.frames into your global environment
-- UCI.HAR.tidy
-- UCI.HAR.averaged
+This will export two derived data.frames into your global environment:
+* UCI.HAR.tidy
+* UCI.HAR.averaged
 
 
 ## Data Source
