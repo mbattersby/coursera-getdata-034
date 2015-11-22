@@ -127,7 +127,7 @@ Each row records a mean data value for one (subject, activity, feature).
 Variables present:
  1. subject - subject identifier as in UCI.HAR.tidy
  2. activity - activity label as in UCI.HAR.tidy
- 3. measurement - feature name from 'features.txt'
+ 3. reading - feature name from 'features.txt'
  4. mean - mean() applied to all grouped measurements
 
 ##Sources
