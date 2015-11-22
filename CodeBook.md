@@ -28,9 +28,12 @@ To produce the UCI.HAR.averaged data.frame:
 * The result was gathered into a narrow tidy format by (subject, activity).
 
 ##Description of UCI.HAR.tidy
- - 10299 observations of 68 variables.
- - Each row represents one set of acceleromter and gyroscope measurements of a subject performing an activity.
- - Variables present:
+
+10299 observations of 68 variables.
+
+Each row represents one set of acceleromter and gyroscope measurements of a subject performing an activity.
+
+Variables present:
    1. subject
    1. activity
    1. tBodyAcc-mean()-X
@@ -115,6 +118,17 @@ Activity being performed. Factor with 6 levels:
 
 ###Remaining variables.
 See 'features_info.txt' in the original dataset description.
+
+##Description of UCI.HAR.averaged
+11880 observations of 4 variables
+
+Each row records a mean data value for one (subject, activity, feature).
+
+Variables present:
+ 1. subject - subject identifier as in UCI.HAR.tidy
+ 2. activity - activity label as in UCI.HAR.tidy
+ 3. measurement - feature name from 'features.txt'
+ 4. mean - mean() applied to all grouped measurements
 
 ##Sources
 [UCI HAR Dataset](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)
