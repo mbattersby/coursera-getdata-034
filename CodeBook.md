@@ -31,7 +31,7 @@ To produce the UCI.HAR.averaged data.frame:
 
 10299 observations of 68 variables.
 
-Each row represents one set of acceleromter and gyroscope measurements of a subject performing an activity.
+Each row represents one set of accelerometer and gyroscope measurements of a subject performing an activity.
 
 Variables present:
    1. subject
