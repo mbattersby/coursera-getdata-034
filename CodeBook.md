@@ -105,12 +105,13 @@ Subject identifier, integer range 1:30.
 
 ###activity
 Activity being performed. Factor with 6 levels:
-1. "LAYING"
-1. "SITTING"
-1. "STANDING"
-1. "WALKING"           
-1. "WALKING_DOWNSTAIRS"
-1. "WALKING_UPSTAIRS"  
+
+ 1. "LAYING"
+ 1. "SITTING"
+ 1. "STANDING"
+ 1. "WALKING"           
+ 1. "WALKING_DOWNSTAIRS"
+ 1. "WALKING_UPSTAIRS"  
 
 ###Remaining variables.
 See 'features_info.txt' in the original dataset description.
