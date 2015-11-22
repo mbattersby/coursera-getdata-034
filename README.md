@@ -24,4 +24,4 @@ The UCI HAR Dataset is described in detail [here](http://archive.ics.uci.edu/ml/
 
 ## Code Book
 
-A [codebook](CodeBook.md) describes the UCI.HAR.tidy and UCI.HAR.averaged data frames, their variables, and the data transformations used to derive them.
+A [CodeBook](CODEBOOK.md) describes the UCI.HAR.tidy and UCI.HAR.averaged data frames, their variables, and the data transformations used to derive them.

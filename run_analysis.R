@@ -48,14 +48,14 @@ assemble.dataset <- function () {
     feature_labels <- read.table("features.txt", col.names=c("id", "label"), stringsAsFactors=FALSE)
     wanted_features <- grep("-(mean|std)\\(\\)", feature_labels$label)
     
-    nicer_feature_labels <- gsub("Body", "Body.", feature_labels$label, fixed=TRUE)
-    nicer_feature_labels <- gsub("Gravity", "Gravity.", nicer_feature_labels, fixed=TRUE)
-    nicer_feature_labels <- gsub("Acc", "Accelerometer.", nicer_feature_labels, fixed=TRUE)
-    nicer_feature_labels <- gsub("Gyro", "Gyroscope.", nicer_feature_labels, fixed=TRUE)
-    nicer_feature_labels <- gsub("Mag", "Magnitude.", nicer_feature_labels, fixed=TRUE)
-    nicer_feature_labels <- gsub("Jerk", "Jerk.", nicer_feature_labels, fixed=TRUE)
-    nicer_feature_labels <- gsub("-(mean|std)", "\\1", nicer_feature_labels)
-    nicer_feature_labels <- gsub("()", "", nicer_feature_labels, fixed=TRUE)
+    #nicer_feature_labels <- gsub("Body", "Body.", feature_labels$label, fixed=TRUE)
+    #nicer_feature_labels <- gsub("Gravity", "Gravity.", nicer_feature_labels, fixed=TRUE)
+    #nicer_feature_labels <- gsub("Acc", "Accelerometer.", nicer_feature_labels, fixed=TRUE)
+    #nicer_feature_labels <- gsub("Gyro", "Gyroscope.", nicer_feature_labels, fixed=TRUE)
+    #nicer_feature_labels <- gsub("Mag", "Magnitude.", nicer_feature_labels, fixed=TRUE)
+    #nicer_feature_labels <- gsub("Jerk", "Jerk.", nicer_feature_labels, fixed=TRUE)
+    #nicer_feature_labels <- gsub("-(mean|std)", "\\1", nicer_feature_labels)
+    #nicer_feature_labels <- gsub("()", "", nicer_feature_labels, fixed=TRUE)
 
     cat("  * Reading the training set files:\n")    
     
@@ -69,7 +69,7 @@ assemble.dataset <- function () {
     cat("    * set data\n")
     train_set <- read.table(file.path("train", "X_train.txt"), colClasses="numeric", comment.char="")
     #colnames(train_set) <- make.names(feature_labels$label, unique=FALSE)
-    colnames(train_set) <- nicer_feature_labels
+    colnames(train_set) <- feature_labels$label
     
     cat("  * Assembling the training set frame.\n")
     train <- cbind(train_subject, train_activity_labels, train_set[,wanted_features])
@@ -87,7 +87,7 @@ assemble.dataset <- function () {
     cat("    * set data\n")
     test_set <- read.table(file.path("test", "X_test.txt"), colClasses="numeric", comment.char="")
     #colnames(test_set) <- make.names(feature_labels$label, unique=TRUE)
-    colnames(test_set) <- nicer_feature_labels
+    colnames(test_set) <- feature_labels$label
     
     cat("  * Assembling the test set frame.\n")
     test <- cbind(test_subject, test_activity_labels, test_set[,wanted_features])
@@ -115,8 +115,8 @@ create.averaged.dataset <- function(dataset) {
 
 run_analysis <- function () {
     fetch.dataset()
-    UCI.HAR.raw <<- assemble.dataset()
-    UCI.HAR.tidy <<- create.averaged.dataset(UCI.HAR.raw)
+    UCI.HAR.tidy <<- assemble.dataset()
+    UCI.HAR.averaged <<- create.averaged.dataset(UCI.HAR.tidy)
 }
 
 run_analysis()
