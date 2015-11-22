@@ -1,9 +1,27 @@
 # Tidying the UCI HAR Dataset
 
-Getting and Cleaning Data - Course Project
+This is an R script to process the UCI HAR Dataset into a tidy data format.
 
-### Data Sources
+## How to use
 
-http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+The code to download and process the dataset is in the [run_analyis.R](run_analysis.R) file.
 
-https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+To do the processing source the file into your R environment.
+
+```R
+source('run_analysis.R')
+```
+
+This will export two resulting data.frames into your global environment
+- UCI.HAR.tidy
+- UCI.HAR.averaged
+
+
+## Data Source
+
+The UCI HAR Dataset is described in detail [here](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) and can be fetched from a mirror [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
+
+
+## Code Book
+
+A [codebook](CodeBook.md) describes the UCI.HAR.tidy and UCI.HAR.averaged data frames, their variables, and the data transformations used to derive them.
