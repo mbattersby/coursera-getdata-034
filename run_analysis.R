@@ -50,11 +50,11 @@ assemble.dataset <- function () {
     
     names(data) <- c('subject', 'activity', gsub('()', '', wanted_names, fixed=TRUE))
 
-    # Read the activity labels and replace the ids with the label. It might be better to
-    # set activity to be factor and set the levels from the labels.
+    # Read the activity labels and use them for factor levels.
     
     activity_labels <- read.table("activity_labels.txt", col.names=c("id", "label"), stringsAsFactors=FALSE)
-    data$activity <- activity_labels[data$activity, 2]
+    data$activity <- as.factor(data$activity)
+    levels(data$activity) <- activity_labels[,2]
     
     return(data %>% arrange(subject))
 }
