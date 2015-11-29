@@ -62,8 +62,8 @@ assemble.dataset <- function () {
 create.averaged.dataset <- function(dataset) {
     dataset %>%
         group_by(subject, activity) %>%
-        summarize_each(funs(mean)) #%>%
-        #gather(reading, mean, -subject, -activity)
+        summarize_each(funs(mean)) %>%
+        gather(reading, mean, -subject, -activity)
 }
 
 #fetch.dataset()
