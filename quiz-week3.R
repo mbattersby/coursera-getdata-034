@@ -11,18 +11,22 @@ q1 <- function () {
 q2 <- function () {
     library(jpeg)
     url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fjeff.jpg"
-    file <- basename(URLdecode(url))
+    file <- file.path('data', basename(URLdecode(url)))
+    
+    dir.create('data', showWarnings=FALSE)
     if (!file.exists(file)) download.file(url, file)
+    
     pic <- readJPEG(file, native=TRUE)
     quantile(pic, probs=c(0.3, 0.8))
 }
 
 q3.4.5 <- function () {
     gdpURL <- URLdecode("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv")
-    gdpFile <- basename(gdpURL)
+    gdpFile <- file.path('data', basename(gdpURL))
     eduURL <- URLdecode("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv")
-    eduFile <- basename(eduURL)
+    eduFile <- file.path('data', basename(eduURL))
     
+    dir.create('data', showWarnings=FALSE)
     if (!file.exists(gdpFile)) download.file(gdpURL, gdpFile)
     if (!file.exists(eduFile)) download.file(eduURL, eduFile)
     

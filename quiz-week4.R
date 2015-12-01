@@ -26,7 +26,7 @@ q3 <- function () {
 }
 
 q4 <- function () {
-    gdpURL <-URLdecode('https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv')
+    gdpURL <- URLdecode('https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv')
     g <- read_csv(gdpURL)
     g <- g[5:194, c(1,3,4,5)]
     colnames(g) <- c('countrycode', 'ranking', 'countryname', 'gdp')
